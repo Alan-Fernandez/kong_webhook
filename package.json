@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pgadmin": "docker-compose up -d pgadmin",
+    "docker-up": "docker-compose up"
   },
   "keywords": [],
   "author": "",
