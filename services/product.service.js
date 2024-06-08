@@ -2,7 +2,7 @@ const logger = require('../utils/logger');
 const { faker } = require('@faker-js/faker');
 const boom = require('@hapi/boom');
 
-const pool = require('../libs/postgres.pool');
+const pool = require('../libs/sequalize');
 
 class ProductsService {
 
@@ -40,8 +40,8 @@ class ProductsService {
 
   async find() {
     const query = 'SELECT * FROM products';
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const [data] = await this.sequalize.query(query);
+    return data;
   }
 
   async findOne(id) {
