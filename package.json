@@ -36,8 +36,7 @@
     "mysql2": "^3.10.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.6.5",
-    "server": "^1.0.39"
+    "sequelize": "^6.6.5"
   },
   "engines": {
     "node": "20.x"
