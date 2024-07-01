@@ -1,13 +1,17 @@
 const express = require('express');
+const passport = require('passport');
 
 const CategoryService = require('./../services/category.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const { createCategorySchema, updateCategorySchema, getCategorySchema } = require('./../schemas/category.schema');
 
 const router = express.Router();
 const service = new CategoryService();
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+  checkRoles('admin', 'seller', 'customer'),
+  async (req, res, next) => {
   try {
     const categories = await service.find();
     res.json(categories);
@@ -17,6 +21,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
+  checkRoles('admin', 'seller', 'customer'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {
@@ -30,6 +35,7 @@ router.get('/:id',
 );
 
 router.post('/',
+  checkRoles('admin'),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -37,12 +43,18 @@ router.post('/',
       const newCategory = await service.create(body);
       res.status(201).json(newCategory);
     } catch (error) {
-      next(error);
+      if (!res.headersSent) {
+        next(error);
+      } else {
+        console.error('Error después de enviar la respuesta:', error);
+      }
+      return;
     }
   }
 );
 
 router.patch('/:id',
+  checkRoles('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
@@ -58,6 +70,7 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  checkRoles('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {

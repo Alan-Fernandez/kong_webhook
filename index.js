@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
+const { checkApiKey } = require('./middlewares/auth.handler');
 const path = require('path');
 
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
@@ -22,10 +23,14 @@ const options = {
 }
 app.use(cors(options));
 
-app.use(express.static('public'));
+require('./utils/auth');
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/nueva-ruta', checkApiKey, (req, res) => {
+  res.send('Hola, soy una nueva ruta');
 });
 
 routerApi(app);
