@@ -14,7 +14,7 @@
 Utiliza el siguiente comando para clonar el repositorio del proyecto en tu máquina local:
 
 ```bash
-git clone <URL-del-repositorio>
+git clone https://github.com/Alan-Fernandez/kong_webhook.git
 ```
 
 ### 2. Instalar las Dependencias del Proyecto
