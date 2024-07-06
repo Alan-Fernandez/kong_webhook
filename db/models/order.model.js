@@ -1,3 +1,5 @@
+// order.model.js
+
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { CUSTOMER_TABLE } = require('./customer.model');
 
@@ -6,9 +8,9 @@ const ORDER_TABLE = 'orders';
 const OrderSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
   },
   customerId: {
     field: 'customer_id',
@@ -47,6 +49,7 @@ class Order extends Model {
     this.belongsTo(models.Customer, {
       as: 'customer',
     });
+
     this.belongsToMany(models.Product, {
       as: 'items',
       through: models.OrderProduct,

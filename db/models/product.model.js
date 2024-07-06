@@ -1,3 +1,5 @@
+// product.mpdel.js
+
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const { CATEGORY_TABLE } = require('./category.model');

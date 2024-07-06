@@ -33,8 +33,7 @@ const CustomerSchema =  {
   userId: {
     field: 'user_id',
     allowNull: false,
-    type: DataTypes.INTEGER,
-    unique: true,
+    type: DataTypes.UUID,
     references: {
       model: USER_TABLE,
       key: 'id'
@@ -47,7 +46,7 @@ const CustomerSchema =  {
 class Customer extends Model {
 
   static associate(models) {
-    this.belongsTo(models.User, {as: 'user'});
+    this.belongsTo(models.User, {as: 'user', foreignKey: 'userId'});
     this.hasMany(models.Order, {
       as: 'orders',
       foreignKey: 'customerId'

@@ -21,7 +21,6 @@ router.get('/',
 });
 
 router.get('/:id',
-  checkRoles('admin', 'seller', 'customer'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {
@@ -35,6 +34,7 @@ router.get('/:id',
 );
 
 router.post('/',
+  passport.authenticate('jwt', {session: false}),
   checkRoles('admin'),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
@@ -43,17 +43,13 @@ router.post('/',
       const newCategory = await service.create(body);
       res.status(201).json(newCategory);
     } catch (error) {
-      if (!res.headersSent) {
-        next(error);
-      } else {
-        console.error('Error después de enviar la respuesta:', error);
-      }
-      return;
+      next(error);
     }
   }
 );
 
 router.patch('/:id',
+  passport.authenticate('jwt', {session: false}),
   checkRoles('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
@@ -70,6 +66,7 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  passport.authenticate('jwt', {session: false}),
   checkRoles('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {

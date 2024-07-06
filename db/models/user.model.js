@@ -1,3 +1,4 @@
+// db/models/user.model.js
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const USER_TABLE = 'users';
@@ -5,9 +6,9 @@ const USER_TABLE = 'users';
 const UserSchema = {
   id: {
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
   },
   email: {
     allowNull: false,
@@ -42,6 +43,10 @@ class User extends Model {
       as: 'customer',
       foreignKey: 'userId'
     });
+    this.hasMany(models.UserAddress, {
+      as: 'addresses',
+      foreignKey: 'userId'
+    });
   }
 
   static config(sequelize) {
@@ -49,10 +54,9 @@ class User extends Model {
       sequelize,
       tableName: USER_TABLE,
       modelName: 'User',
-      timestamps: false
+      timestamps: false,
     }
   }
 }
-
 
 module.exports = { USER_TABLE, UserSchema, User }

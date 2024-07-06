@@ -1,3 +1,5 @@
+// order-product.model.js
+
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const { ORDER_TABLE } = require('./order.model');

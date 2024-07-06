@@ -13,12 +13,12 @@ function routerApi(app) {
   const router = express.Router();
   app.use('/api/v1', router);
   router.use('/products',  productsRouter);
-  router.use('/categories', passport.authenticate('jwt', {session: false}) , categoriesRouter);
+  router.use('/categories', categoriesRouter);
   router.use('/users', usersRouter);
-  router.use('/orders', orderRouter);
+  router.use('/orders', passport.authenticate('jwt', {session: false}), orderRouter);
   router.use('/customers', customersRouter);
   router.use('/auth', authRouter);
-  router.use('/profile', profileRouter);
+  router.use('/profile', passport.authenticate('jwt', {session: false}), profileRouter);
 }
 
 module.exports = routerApi;
