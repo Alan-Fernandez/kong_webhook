@@ -8,6 +8,7 @@ const orderRouter = require('./orders.router');
 const customersRouter = require('./customers.router');
 const authRouter = require('./auth.router');
 const profileRouter = require('./profile.router');
+const countriesRouter = require('./countries.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -17,6 +18,7 @@ function routerApi(app) {
   router.use('/users', usersRouter);
   router.use('/orders', passport.authenticate('jwt', {session: false}), orderRouter);
   router.use('/customers', customersRouter);
+  router.use('/countries', countriesRouter);
   router.use('/auth', authRouter);
   router.use('/profile', passport.authenticate('jwt', {session: false}), profileRouter);
 }

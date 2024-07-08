@@ -13,6 +13,9 @@ function checkApiKey(req, res, next) {
 
 function checkAdminRole(req, res, next) {
   const user = req.user;
+  if (!user || !user.role) {
+    return next(boom.unauthorized('User role is not defined'));
+  }
   if (user.role === 'admin') {
     next();
   } else {
@@ -24,6 +27,9 @@ function checkAdminRole(req, res, next) {
 function checkRoles(...roles) {
   return (req, res, next) => {
     const user = req.user;
+    if (!user || !user.role) {
+      return next(boom.unauthorized('User role is not defined'));
+    }
     if (roles.includes(user.role)) {
       next();
     } else {
@@ -31,7 +37,5 @@ function checkRoles(...roles) {
     }
   }
 }
-
-
 
 module.exports = { checkApiKey, checkAdminRole, checkRoles }
